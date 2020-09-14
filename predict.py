@@ -4,8 +4,8 @@ from skimage.color import rgb2lab, lab2rgb
 import numpy as np
 
 
-def predict_rgb_image(image_path):
-    model = load_model('model_cloud_3.h5')
+def predict_rgb_image(image_path, model_path):
+    model = load_model(model_path)
     loaded_img = load_img(image_path, target_size=(256, 256))
     img_array = img_to_array(loaded_img)
     img_array = 1.0/255 * img_array

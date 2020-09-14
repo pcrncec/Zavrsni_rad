@@ -36,7 +36,7 @@ def train(nb_epochs, batch_size, learning_rate, save_path=os.getcwd(), split_dat
     adam = Adam(lr=learning_rate)
     model.compile(optimizer=adam, loss='mse', metrics=['acc'])
 
-    train_path = os.path.join(os.getcwd(), "atraining")
+    train_path = os.path.join(os.getcwd(), "training")
     val_path = os.path.join(os.getcwd(), "validation")
     train_images_path = os.path.join(train_path, 'images')
     val_images_path = os.path.join(val_path, 'images')
@@ -53,10 +53,11 @@ def train(nb_epochs, batch_size, learning_rate, save_path=os.getcwd(), split_dat
     train_generator = data_process.generator(2, train_path)
     validation_generator = data_process.generator(2, val_path)
 
-    train_steps = get_number_of_data(TRAIN_IMAGES_PATH) // batch_size
-    val_steps = get_number_of_data(VAL_IMAGES_PATH) // batch_size
-    
-    model.fit(train_generator, batch_size=batch_size, steps_per_epoch=train_steps, epochs=nb_epochs, validation_data=validation_generator, validation_steps=val_steps)
+    train_steps = data_process.get_number_of_data(train_images_path) // batch_size
+    val_steps = data_process.get_number_of_data(val_images_path) // batch_size
+
+    model.fit(train_generator, batch_size=batch_size, steps_per_epoch=train_steps, epochs=nb_epochs,
+              validation_data=validation_generator, validation_steps=val_steps)
     save_path = os.path.join(save_path, 'model.h5')
     model.save(save_path)
 
@@ -64,4 +65,5 @@ def train(nb_epochs, batch_size, learning_rate, save_path=os.getcwd(), split_dat
 if __name__ == "__main__":
     batch_size = 32
     learning_rate = 1e-3
-    train(batch_size, learning_rate)
+    nb_epochs = 30
+    train(nb_epochs, batch_size, learning_rate)

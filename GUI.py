@@ -21,7 +21,8 @@ def upload_clicked():
 
 def colorize_clicked():
     global colorized_img
-    colorized_img = predict.predict_rgb_image(root.filename)
+    model_path = os.path.join(os.getcwd(), 'model_cloud_3.h5')
+    colorized_img = predict.predict_rgb_image(root.filename, model_path)
     colorized_photoimage = ImageTk.PhotoImage(colorized_img)
     panel_colorized = Label(root, image=colorized_photoimage)
     panel_colorized.image = colorized_photoimage
@@ -32,11 +33,7 @@ def save_clicked():
     current_colorized_image = colorized_img
     saveas = filedialog.asksaveasfile(mode="wb", initialdir=os.getcwd(), title="Spremite sliku",
                                       filetypes=(("PNG", "*.png"), ("JPG", "*.jpg")))
-    # print("file name : ", saveas.)
-    # print("file type: ",saveas)
     current_colorized_image.save(saveas)
-    # if save is None:
-    # return
 
 
 def main():
